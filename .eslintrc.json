@@ -44,6 +44,22 @@
       "rules": {
         "@typescript-eslint/no-require-imports": "off"
       }
+    },
+    {
+      "files": ["*-example.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [".*"],
+                "message": "Relative imports are not allowed."
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

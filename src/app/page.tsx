@@ -1,15 +1,15 @@
-import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { hooksConfig } from "@/config/hooks"
+import { HookCard } from "@/components/hook-card"
 
-export default function Home() {
+export default async function Home() {
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-4">
-      <p>Hello, world!</p>
-      <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-        Hello, world!
-      </code>
-      <Button>Hello, world!</Button>
-      <ThemeToggle />
+    <div className="space-y-4">
+      <h2>Copy-pase collection of React Hooks.</h2>
+      <div className="space-y-2">
+        {hooksConfig.map((hook) => (
+          <HookCard key={hook.name} hook={hook} />
+        ))}
+      </div>
     </div>
   )
 }
