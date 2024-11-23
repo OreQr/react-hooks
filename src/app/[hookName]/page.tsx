@@ -2,6 +2,7 @@ import fs from "fs/promises"
 import path from "path"
 import { notFound } from "next/navigation"
 
+import { type HookItem } from "@/types/hooks"
 import { hooksConfig } from "@/config/hooks"
 import { compileCode } from "@/lib/transform"
 import {
@@ -22,6 +23,29 @@ export function generateStaticParams() {
   }))
 }
 
+export function ItemsTable({ items }: { items: HookItem[] }) {
+  return (
+    <Table>
+      <TableHeader className="font-mono">
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Type</TableHead>
+          <TableHead>Description</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {items.map((item, index) => (
+          <TableRow key={index}>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.type}</TableCell>
+            <TableCell>{item.description}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}
+
 export default async function HookPage({
   params,
 }: {
@@ -35,27 +59,27 @@ export default async function HookPage({
     path.join(process.cwd(), "src", "hooks", `${hook.fileName}.ts`),
     "utf-8"
   )
-
   const jsCode = await compileCode(code)
 
   return (
     <div className="space-y-6">
-      {hook.name}
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>1</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell>1</TableCell>
-            <TableCell>2</TableCell>
-            <TableCell>3</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <header className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">{hook.name}</h1>
+        <p className="text text-justify text-muted-foreground">
+          {hook.description}
+        </p>
+      </header>
       <ExampleComponent name={hook.fileName} />
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h3 className="text-xl font-semibold tracking-tight">Parameters</h3>
+          <ItemsTable items={hook.parameters} />
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-xl font-semibold tracking-tight">Return value</h3>
+          <ItemsTable items={hook.returnValue} />
+        </div>
+      </section>
       <section className="space-y-4">
         <h3 className="border-b pb-2 text-2xl font-semibold tracking-tight">
           Installation
