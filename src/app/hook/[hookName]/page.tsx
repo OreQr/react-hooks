@@ -81,7 +81,7 @@ export default async function HookPage({ params }: Props) {
           <TabsList>
             <TabsTrigger value="manual-ts">
               <img
-                src="typescript.svg"
+                src="/typescript.svg"
                 alt="typescript"
                 className="mr-1 size-5"
               />
@@ -89,7 +89,7 @@ export default async function HookPage({ params }: Props) {
             </TabsTrigger>
             <TabsTrigger value="manual-js">
               <img
-                src="javascript.svg"
+                src="/javascript.svg"
                 alt="javascript"
                 className="mr-1 size-5"
               />

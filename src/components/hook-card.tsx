@@ -12,7 +12,7 @@ import {
 
 export function HookCard({ hook }: { hook: Hook }) {
   return (
-    <Link href={hook.name}>
+    <Link href={"/hook/" + hook.name}>
       <Card className="group transition-shadow duration-300 hover:shadow-lg">
         <CardHeader className="pb-2">
           <CardTitle className="text-primary">{hook.name}</CardTitle>
