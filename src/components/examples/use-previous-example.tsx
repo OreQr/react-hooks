@@ -16,7 +16,7 @@ const colors = [
 
 const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
 
-export default function usePreviousExample() {
+export default function UsePreviousExample() {
   const [color, setColor] = useState(colors[0])
   const previousColor = usePrevious(color)
 
