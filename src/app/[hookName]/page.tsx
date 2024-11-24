@@ -1,5 +1,7 @@
 import fs from "fs/promises"
 import path from "path"
+import { cache } from "react"
+import { type Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { type HookItem } from "@/types/hooks"
@@ -23,37 +25,28 @@ export function generateStaticParams() {
   }))
 }
 
-export function ItemsTable({ items }: { items: HookItem[] }) {
-  return (
-    <Table>
-      <TableHeader className="font-mono">
-        <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Type</TableHead>
-          <TableHead>Description</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {items.map((item, index) => (
-          <TableRow key={index}>
-            <TableCell>{item.name}</TableCell>
-            <TableCell>{item.type}</TableCell>
-            <TableCell>{item.description}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  )
+interface Props {
+  params: Promise<{ hookName: string }>
 }
 
-export default async function HookPage({
-  params,
-}: {
-  params: Promise<{ hookName: string }>
-}) {
-  const { hookName } = await params
+const getHook = cache((hookName: string) => {
   const hook = hooksConfig.find((hook) => hook.name === hookName)
   if (!hook) notFound()
+
+  return hook
+})
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const hook = getHook((await params).hookName)
+
+  return {
+    title: hook.name,
+    description: hook.description,
+  }
+}
+
+export default async function HookPage({ params }: Props) {
+  const hook = getHook((await params).hookName)
 
   const code = await fs.readFile(
     path.join(process.cwd(), "src", "hooks", `${hook.fileName}.ts`),
@@ -112,5 +105,28 @@ export default async function HookPage({
         </Tabs>
       </section>
     </div>
+  )
+}
+
+export function ItemsTable({ items }: { items: HookItem[] }) {
+  return (
+    <Table>
+      <TableHeader className="font-mono">
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Type</TableHead>
+          <TableHead>Description</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {items.map((item, index) => (
+          <TableRow key={index}>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.type}</TableCell>
+            <TableCell>{item.description}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   )
 }

@@ -10,8 +10,9 @@ import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
-  title: siteConfig.title,
+  title: { default: siteConfig.title, template: `%s - ${siteConfig.title}` },
   description: siteConfig.description,
+  keywords: ["React", "Hooks", "TypeScript", "JavaScript"],
 }
 
 export default function RootLayout({
