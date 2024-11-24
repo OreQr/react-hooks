@@ -108,7 +108,7 @@ export default async function HookPage({ params }: Props) {
   )
 }
 
-export function ItemsTable({ items }: { items: HookItem[] }) {
+function ItemsTable({ items }: { items: HookItem[] }) {
   return (
     <Table>
       <TableHeader className="font-mono">
