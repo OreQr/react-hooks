@@ -10,7 +10,7 @@ export default async function Home() {
         <br />
         No package installation required, no dependencies to manage.
       </h2>
-      <div className="space-y-2">
+      <div className="flex flex-col space-y-2">
         {hooksConfig.map((hook) => (
           <HookCard key={hook.name} hook={hook} />
         ))}

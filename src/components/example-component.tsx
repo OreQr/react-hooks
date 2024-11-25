@@ -1,7 +1,7 @@
 import fs from "fs/promises"
 import path from "path"
 
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import { CodeBlock } from "./code-block"
@@ -38,6 +38,7 @@ export async function ExampleComponent({ name }: { name: string }) {
           <div className="max-h-[400px] p-4 px-2 sm:px-4 md:p-6">
             <Component />
           </div>
+          <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </TabsContent>
       <TabsContent value="code">
